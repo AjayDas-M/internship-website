@@ -1,0 +1,44 @@
+<div class="section">
+    <h3>Education Details – 12th Std</h3>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="details-row">
+            <input type="text" name="subject1" placeholder="Subject 1" required>
+            <input type="number" name="marks1" placeholder="Marks" required>
+        </div>
+
+        <div class="details-row">
+            <input type="text" name="subject2" placeholder="Subject 2" required>
+            <input type="number" name="marks2" placeholder="Marks" required>
+        </div>
+
+        <div class="details-row">
+            <input type="text" name="subject3" placeholder="Subject 3" required>
+            <input type="number" name="marks3" placeholder="Marks" required>
+        </div>
+
+        <div class="details-row">
+            <input type="text" name="subject4" placeholder="Subject 4" required>
+            <input type="number" name="marks4" placeholder="Marks" required>
+        </div>
+
+        <div class="details-row">
+            <input type="text" name="subject5" placeholder="Subject 5" required>
+            <input type="number" name="marks5" placeholder="Marks" required>
+        </div>
+
+        <div class="details-row">
+            <label>Upload 12th Certificate:</label>
+            <input type="file" name="certificate" accept="image/*" required>
+        </div>
+
+        <button type="submit">Save Education Details</button>
+    </form>
+
+    {% if education %}
+        <p><strong>Education details saved successfully.</strong></p>
+        <img src="{{ education.certificate.url }}" width="200">
+    {% endif %}
+</div>

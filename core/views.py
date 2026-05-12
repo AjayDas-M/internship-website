@@ -2,12 +2,13 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from .forms import CustomUserCreationForm, StudentProfileForm
+from .models import StudentProfile, Education12
 from .models import StudentProfile
 import random
 from django.core.mail import send_mail
 from django.conf import settings
-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
 def home(request):
     return render(request, 'home.html')
@@ -155,9 +156,69 @@ def verify_otp(request):
             )
 
             messages.success(request, "Email verified successfully! You can now login.")
-            return redirect('login')
+            return redirect('student_dashboard')
 
         else:
             messages.error(request, "Invalid OTP. Please try again.")
 
     return render(request, 'verify_otp.html')
+
+
+def student_dashboard(request):
+    profile = StudentProfile.objects.get(user=request.user)
+
+    education = None
+    try:
+        education = Education12.objects.get(student=profile)
+    except Education12.DoesNotExist:
+        pass
+
+    if request.method == "POST":
+        subject1 = request.POST.get('subject1')
+        marks1 = request.POST.get('marks1')
+
+        subject2 = request.POST.get('subject2')
+        marks2 = request.POST.get('marks2')
+
+        subject3 = request.POST.get('subject3')
+        marks3 = request.POST.get('marks3')
+
+        subject4 = request.POST.get('subject4')
+        marks4 = request.POST.get('marks4')
+
+        subject5 = request.POST.get('subject5')
+        marks5 = request.POST.get('marks5')
+
+        certificate = request.FILES.get('certificate')
+
+        Education12.objects.update_or_create(
+            student=profile,
+            defaults={
+                'subject1': subject1,
+                'marks1': marks1,
+                'subject2': subject2,
+                'marks2': marks2,
+                'subject3': subject3,
+                'marks3': marks3,
+                'subject4': subject4,
+                'marks4': marks4,
+                'subject5': subject5,
+                'marks5': marks5,
+                'certificate': certificate,
+            }
+        )
+
+        return redirect('student_dashboard')
+
+    return render(request, 'student_dashboard.html', {
+        'profile': profile,
+        'education': education
+    })
+
+def logout_view(request):
+    if request.method == "POST":
+        logout(request)  # destroys session
+        messages.success(request, "Logged out successfully.")
+        return redirect('login')
+
+    return redirect('student_dashboard')
