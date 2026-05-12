@@ -1,0 +1,422 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RLabs Internship Portal</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+<header class="header">
+    <h1 class="logo">RLabZ</h1>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <div class="nav-container">
+
+            <a href="#" class="nav-link active">Home</a>
+            <a href="#about" class="nav-link">About</a>
+            <a href="#projects" class="nav-link">Projects</a>
+            <a href="#internships" class="nav-link">Internships</a>
+            <a href="#apply" class="nav-link">Apply</a>
+        </div>
+
+    </nav>
+</header>
+
+
+<!-- HERO -->
+<!-- HERO -->
+<section id="home" class="hero">
+
+    <div class="hero-left">
+
+        <h1>
+            Build Real Skills Through Internships
+        </h1>
+
+        <p>
+            Learn by building real-world projects
+            with guidance from mentors.
+
+            Gain practical experience through
+            collaborative teamwork and modern technologies.
+
+        </p>
+
+         <div class="hero-buttons">
+            <a href="#internships" class="primary-btn">
+                Explore Internships 
+            </a> 
+
+            {% comment %} <button class="secondary-btn">
+                View Projects
+            </button> {% endcomment %}
+        </div>
+
+    </div>
+
+    <div class="hero-right">
+
+
+        <div class="dashboard">
+
+            <div class="dashboard-card">
+                <h2>120+</h2>
+                <p>Active Interns</p>
+            </div>
+
+            <div class="dashboard-card">
+                <h2>15+</h2>
+                <p>Live Projects</p>
+            </div>
+
+            <div class="dashboard-card">
+                <h2>8</h2>
+                <p>Internship Domains</p>
+            </div>
+
+            <div class="dashboard-card">
+                <h2>95%</h2>
+                <p>Completion Rate</p>
+            </div>
+
+        </div>
+
+</div>
+
+
+</section>
+
+<!-- ABOUT SECTION -->
+<!-- ===================== ABOUT SECTION ===================== -->
+
+<section id="about" class="about-section">
+
+    <div class="about-container">
+
+        <!-- LEFT CONTENT -->
+        <div class="about-content">
+
+            <span class="about-tag">ABOUT RLabs</span>
+
+            <h2>Where Learning Meets Real‑World Innovation</h2>
+
+            <p>
+                RLabs is an innovation-driven initiative under the Rajagiri Centre 
+                for Incubation, established by the School of Computer Science.
+                We bridge the gap between academic knowledge and industry expectations 
+                by providing structured, hands-on internship experiences.
+            </p>
+
+            <p>
+                Our mission is to transform students into confident professionals 
+                through mentorship, live projects, collaboration, and real-world 
+                problem solving.
+            </p>
+
+            <div class="about-quote">
+                “Relentlessly Towards Excellence.”
+            </div>
+
+        </div>
+
+        <!-- RIGHT IMAGE -->
+        <div class="about-image">
+            <img src="{% static 'images/about.jpg' %}" alt="Students">
+        </div>
+
+    </div>
+
+
+    <!-- BOTTOM SECTION -->
+    <div class="about-bottom">
+
+        <!-- ROADMAP -->
+        <div class="roadmap-box">
+
+            <h3>Your Growth Journey</h3>
+
+            <div class="timeline">
+
+                <div class="timeline-step active">
+                    <div class="timeline-dot"></div>
+                    <div>
+                        <h4>Apply</h4>
+                        <p>Submit your application and showcase your interest and skills.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-step">
+                    <div class="timeline-dot"></div>
+                    <div>
+                        <h4>Training Phase</h4>
+                        <p>Gain foundational knowledge through guided sessions and structured tasks.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-step">
+                    <div class="timeline-dot"></div>
+                    <div>
+                        <h4>Project Execution</h4>
+                        <p>Work in teams to build real-world, production-ready solutions.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-step">
+                    <div class="timeline-dot"></div>
+                    <div>
+                        <h4>Industry Simulation</h4>
+                        <p>Experience company-style workflows, reviews, and deadlines.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-step">
+                    <div class="timeline-dot"></div>
+                    <div>
+                        <h4>Certification</h4>
+                        <p>Complete your journey with evaluation, certification, and career guidance.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- HOW IT WORKS -->
+        <div class="procedure-box">
+
+            <h3>How It Works</h3>
+
+            <div class="procedure-step">
+                <h4>Apply</h4>
+                <p>Students submit applications. Selected candidates are notified via email.</p>
+            </div>
+
+            <div class="procedure-step">
+                <h4>Mentored Learning</h4>
+                <p>Structured training sessions combined with practical assignments.</p>
+            </div>
+
+            <div class="procedure-step">
+                <h4>Collaborative Development</h4>
+                <p>Interns work in teams on meaningful, real-world projects.</p>
+            </div>
+
+            <div class="procedure-step">
+                <h4>Professional Exposure</h4>
+                <p>Simulated industry environment with reviews and performance feedback.</p>
+            </div>
+
+            <div class="procedure-step">
+                <h4>Completion & Certification</h4>
+                <p>Final evaluation followed by certification and career guidance.</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PROJECTS -->
+<!-- ===================== PROJECTS SECTION ===================== -->
+
+<section id="projects" class="projects-section">
+
+    <div class="projects-header">
+        <span>OUR PROJECTS</span>
+        <h2>Real‑World Solutions Built by Our Interns</h2>
+        <p>
+            We focus on building impactful applications that solve practical 
+            problems while giving interns real industry exposure.
+        </p>
+    </div>
+
+    <div class="projects-container">
+
+        <!-- LEFT PROJECT LIST -->
+        <div class="projects-list">
+
+            <div class="project-card">
+                <h3>Campus Connect</h3>
+                <p>Web platform connecting students and faculty for seamless communication.</p>
+            </div>
+
+            <div class="project-card">
+                <h3>Fest Buddy</h3>
+                <p>Android app designed for event planning and management.</p>
+            </div>
+
+            <div class="project-card">
+                <h3>CTRM System</h3>
+                <p>Teaching resource management system for academic institutions.</p>
+            </div>
+
+            <div class="project-card">
+                <h3>Cocobies</h3>
+                <p>Department-focused mobile application for internal communication.</p>
+            </div>
+
+            <div class="project-card">
+                <h3>Arkon Medical Systems</h3>
+                <p>Healthcare equipment platform with digital management tools.</p>
+            </div>
+
+        </div>
+
+        <!-- RIGHT FEATURE PANEL -->
+        <div class="projects-feature">
+
+            <h3>What Makes Our Projects Unique?</h3>
+
+            <ul>
+                <li>✔ Industry-level architecture & workflows</li>
+                <li>✔ Collaborative team-based development</li>
+                <li>✔ Modern frameworks & technologies</li>
+                <li>✔ Real client-driven problem solving</li>
+                <li>✔ Deployment & maintenance experience</li>
+            </ul>
+
+            <a href="#internships" class="project-btn">
+                Explore Internship Domains
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- INTERNSHIPS -->
+<!-- INTERNSHIPS -->
+<section id="internships" class="internship-section">
+
+    <div class="internship-header">
+        <span>INTERNSHIP DOMAINS</span>
+        <h2>Choose Your Career Path</h2>
+        <p>Gain real-world experience by working on industry-level projects with expert mentorship.</p>
+    </div>
+
+    <div class="internship-grid">
+
+        <!-- Web Development -->
+        <div class="internship-card">
+            <div class="icon-circle">🌐</div>
+            <h3>Full Stack Development</h3>
+            <p>Build responsive websites and full-stack applications using modern frameworks and tools.</p>
+            <a href="#apply" class="intern-btn">Read More</a>
+        </div>
+
+        <!-- AI ML -->
+        <div class="internship-card">
+            <div class="icon-circle">🤖</div>
+            <h3>AI / ML</h3>
+            <p>Work with machine learning models, AI tools, and real-world intelligent systems.</p>
+            <a href="#apply" class="intern-btn">Read More</a>
+        </div>
+
+        <!-- Data Science -->
+        <div class="internship-card">
+            <div class="icon-circle">📊</div>
+            <h3>Data Science</h3>
+            <p>Analyze data, build dashboards, and develop predictive analytics solutions.</p>
+            <a href="#apply" class="intern-btn">Read More</a>
+        </div>
+
+        <!-- UI UX -->
+        <div class="internship-card">
+            <div class="icon-circle">🎨</div>
+            <h3>UI / UX Design</h3>
+            <p>Create modern user experiences and beautiful interfaces with research-driven design.</p>
+            <a href="#apply" class="intern-btn">Read More</a>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- APPLY -->
+<!-- APPLY CTA -->
+<section id="apply">
+    <div class="apply-cta">
+
+        <h2>Ready to Start Your Journey?</h2>
+
+        <p>
+            Take the next step toward gaining real-world experience
+            and building industry-ready skills.
+        </p>
+
+        <a href="{% url 'register' %}" class="cta-apply-btn">
+            Apply Now
+        </a>
+
+    </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="site-footer">
+
+    <div class="footer-container">
+
+        <!-- Column 1 -->
+        <div class="footer-col">
+            <h2 class="footer-logo">RLabs</h2>
+            <p>
+                Building future innovators through real-world learning,
+                mentorship, and industry-driven projects.
+            </p>
+        </div>
+
+        <!-- Column 2 -->
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#internships">Internships</a></li>
+                <li><a href="#apply">Apply</a></li>
+            </ul>
+        </div>
+
+        <!-- Column 3 -->
+        <div class="footer-col">
+            <h4>Contact Us</h4>
+            <p>Email: rlabs@example.com</p>
+            <p>Phone: +91 1234567890</p>
+            <p>Rajagiri Campus <br> Kalamassery</p>
+        </div>
+
+        <!-- Column 4 -->
+        <div class="footer-col">
+            <h4>Follow Us</h4>
+
+            <div class="social-icons">
+                <a href="#">🌐</a>
+                <a href="#">📘</a>
+                <a href="#">📸</a>
+                <a href="#">💼</a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        © 2026 RLabs Internship Portal. All rights reserved.
+    </div>
+
+</footer>
+
+
+<script src="{% static 'js/script.js' %}"></script>
+
+</body>
+</html>
