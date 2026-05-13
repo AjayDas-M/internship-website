@@ -33,14 +33,15 @@
         <div class="dropdown-menu" id="dropdownMenu">
             <a href="{% url 'application_form' %}">Application Form</a>
             <a href="{% url 'logout' %}">Logout</a>
+            <a href="{% url 'student_dashboard' %}">Student Dashboard</a>
         </div>
 
     </div>
     {% else %}
 
     <div class="header-auth">
-        <a href="{% url 'register' %}" class="primary-btn">
-            Apply Now
+        <a href="{% url 'login' %}" class="primary-btn">
+            Log In
         </a>
     </div>
 

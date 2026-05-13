@@ -14,29 +14,6 @@ class StudentProfile(models.Model):
         return self.username
     
 
-class Education12(models.Model):
-    student = models.OneToOneField(StudentProfile, on_delete=models.CASCADE)
-
-    subject1 = models.CharField(max_length=100)
-    marks1 = models.IntegerField()
-
-    subject2 = models.CharField(max_length=100)
-    marks2 = models.IntegerField()
-
-    subject3 = models.CharField(max_length=100)
-    marks3 = models.IntegerField()
-
-    subject4 = models.CharField(max_length=100)
-    marks4 = models.IntegerField()
-
-    subject5 = models.CharField(max_length=100)
-    marks5 = models.IntegerField()
-
-    certificate = models.ImageField(upload_to='certificates/')
-
-    def __str__(self):
-        return f"{self.student.username} - 12th"
-
 
 class InternshipApplication(models.Model):
     student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
@@ -61,3 +38,26 @@ class Internship(models.Model):
 
     def __str__(self):
         return f"{self.internship_id} - {self.title}"
+    
+    
+class InternshipSelection(models.Model):
+
+    STATUS_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Approved', 'Approved'),
+        ('Rejected', 'Rejected'),
+    ]
+
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
+    internship = models.ForeignKey(Internship, on_delete=models.CASCADE)
+
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default='Pending'
+    )
+
+    applied_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student.username} - {self.internship.title}"

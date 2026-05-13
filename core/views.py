@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from .models import StudentProfile, Education12
+from .models import StudentProfile
 from .models import StudentProfile
 import random
 from django.core.mail import send_mail
@@ -10,8 +10,8 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from .models import InternshipApplication
-from .models import Internship
-
+from .models import Internship, InternshipSelection
+from django.shortcuts import get_object_or_404
 
 def home(request):
     return render(request, 'home.html')
@@ -169,65 +169,15 @@ def verify_otp(request):
 @login_required
 def student_dashboard(request):
 
-    profile = StudentProfile.objects.filter(user=request.user).first()
+    profile = StudentProfile.objects.get(user=request.user)
 
-    if not profile:
-        return redirect('home')  # or student_profile_create
+    selections = InternshipSelection.objects.filter(student=profile)
 
     return render(request, 'student_dashboard.html', {
-        'profile': profile
+        'profile': profile,
+        'user': request.user,
+        'selections': selections
     })
-
-# def student_dashboard(request):
-#     profile = StudentProfile.objects.get(user=request.user)
-
-#     education = None
-#     try:
-#         education = Education12.objects.get(student=profile)
-#     except Education12.DoesNotExist:
-#         pass
-
-#     if request.method == "POST":
-#         subject1 = request.POST.get('subject1')
-#         marks1 = request.POST.get('marks1')
-
-#         subject2 = request.POST.get('subject2')
-#         marks2 = request.POST.get('marks2')
-
-#         subject3 = request.POST.get('subject3')
-#         marks3 = request.POST.get('marks3')
-
-#         subject4 = request.POST.get('subject4')
-#         marks4 = request.POST.get('marks4')
-
-#         subject5 = request.POST.get('subject5')
-#         marks5 = request.POST.get('marks5')
-
-#         certificate = request.FILES.get('certificate')
-
-#         Education12.objects.update_or_create(
-#             student=profile,
-#             defaults={
-#                 'subject1': subject1,
-#                 'marks1': marks1,
-#                 'subject2': subject2,
-#                 'marks2': marks2,
-#                 'subject3': subject3,
-#                 'marks3': marks3,
-#                 'subject4': subject4,
-#                 'marks4': marks4,
-#                 'subject5': subject5,
-#                 'marks5': marks5,
-#                 'certificate': certificate,
-#             }
-#         )
-
-#         return redirect('student_dashboard')
-
-#     return render(request, 'student_dashboard.html', {
-#         'profile': profile,
-#         'education': education
-#     })
 
 def logout_view(request):
     logout(request)
@@ -261,34 +211,6 @@ def application_form(request):
         'profile': profile,
         'user': request.user
     })
-# @login_required
-# def application_form(request):
-
-#     profile = StudentProfile.objects.get(user=request.user)
-
-#     if request.method == "POST":
-#         phone = request.POST.get('phone')
-#         college = request.POST.get('college')
-#         course = request.POST.get('course')
-#         year = request.POST.get('year')
-#         skills = request.POST.get('skills')
-#         resume = request.FILES.get('resume')
-
-#         InternshipApplication.objects.create(
-#             student=profile,
-#             phone_number=phone,
-#             college_name=college,
-#             course_department=course,
-#             year_semester=year,
-#             skills=skills,
-#             resume=resume
-#         )
-
-#         return redirect('student_dashboard')
-
-#     return render(request, 'application_form.html', {
-#         'profile': profile
-#     })
 
 
 def fullstack_view(request):
@@ -296,3 +218,27 @@ def fullstack_view(request):
 
 def AIML_view(request):
     return render(request, 'AIML.html')
+
+@login_required
+def internship_form(request):
+
+    profile = StudentProfile.objects.get(user=request.user)
+
+    # Hardcode internship for now
+    internship = Internship.objects.get(internship_id='I001')
+
+    if request.method == "POST":
+
+        InternshipSelection.objects.create(
+            student=profile,
+            internship=internship,
+            status='Pending'
+        )
+
+        return redirect('home')
+
+    return render(request, 'internship_form.html', {
+        'profile': profile,
+        'internship': internship,
+        'user': request.user
+    })
