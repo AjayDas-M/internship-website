@@ -9,6 +9,9 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from .models import InternshipApplication
+from .models import Internship
+
 
 def home(request):
     return render(request, 'home.html')
@@ -156,69 +159,140 @@ def verify_otp(request):
             )
 
             messages.success(request, "Email verified successfully! You can now login.")
-            return redirect('student_dashboard')
+            return redirect('login')
 
         else:
             messages.error(request, "Invalid OTP. Please try again.")
 
     return render(request, 'verify_otp.html')
 
-
+@login_required
 def student_dashboard(request):
+
+    profile = StudentProfile.objects.filter(user=request.user).first()
+
+    if not profile:
+        return redirect('home')  # or student_profile_create
+
+    return render(request, 'student_dashboard.html', {
+        'profile': profile
+    })
+
+# def student_dashboard(request):
+#     profile = StudentProfile.objects.get(user=request.user)
+
+#     education = None
+#     try:
+#         education = Education12.objects.get(student=profile)
+#     except Education12.DoesNotExist:
+#         pass
+
+#     if request.method == "POST":
+#         subject1 = request.POST.get('subject1')
+#         marks1 = request.POST.get('marks1')
+
+#         subject2 = request.POST.get('subject2')
+#         marks2 = request.POST.get('marks2')
+
+#         subject3 = request.POST.get('subject3')
+#         marks3 = request.POST.get('marks3')
+
+#         subject4 = request.POST.get('subject4')
+#         marks4 = request.POST.get('marks4')
+
+#         subject5 = request.POST.get('subject5')
+#         marks5 = request.POST.get('marks5')
+
+#         certificate = request.FILES.get('certificate')
+
+#         Education12.objects.update_or_create(
+#             student=profile,
+#             defaults={
+#                 'subject1': subject1,
+#                 'marks1': marks1,
+#                 'subject2': subject2,
+#                 'marks2': marks2,
+#                 'subject3': subject3,
+#                 'marks3': marks3,
+#                 'subject4': subject4,
+#                 'marks4': marks4,
+#                 'subject5': subject5,
+#                 'marks5': marks5,
+#                 'certificate': certificate,
+#             }
+#         )
+
+#         return redirect('student_dashboard')
+
+#     return render(request, 'student_dashboard.html', {
+#         'profile': profile,
+#         'education': education
+#     })
+
+def logout_view(request):
+    logout(request)
+    return redirect('home')
+
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from .models import InternshipApplication, StudentProfile
+
+@login_required
+def application_form(request):
+
     profile = StudentProfile.objects.get(user=request.user)
 
-    education = None
-    try:
-        education = Education12.objects.get(student=profile)
-    except Education12.DoesNotExist:
-        pass
-
     if request.method == "POST":
-        subject1 = request.POST.get('subject1')
-        marks1 = request.POST.get('marks1')
 
-        subject2 = request.POST.get('subject2')
-        marks2 = request.POST.get('marks2')
-
-        subject3 = request.POST.get('subject3')
-        marks3 = request.POST.get('marks3')
-
-        subject4 = request.POST.get('subject4')
-        marks4 = request.POST.get('marks4')
-
-        subject5 = request.POST.get('subject5')
-        marks5 = request.POST.get('marks5')
-
-        certificate = request.FILES.get('certificate')
-
-        Education12.objects.update_or_create(
+        InternshipApplication.objects.create(
             student=profile,
-            defaults={
-                'subject1': subject1,
-                'marks1': marks1,
-                'subject2': subject2,
-                'marks2': marks2,
-                'subject3': subject3,
-                'marks3': marks3,
-                'subject4': subject4,
-                'marks4': marks4,
-                'subject5': subject5,
-                'marks5': marks5,
-                'certificate': certificate,
-            }
+            phone_number=request.POST.get('phone'),
+            college_name=request.POST.get('college'),
+            course_department=request.POST.get('course'),
+            year_semester=request.POST.get('year'),
+            skills=request.POST.get('skills'),
+            resume=request.FILES.get('resume')
         )
 
         return redirect('student_dashboard')
 
-    return render(request, 'student_dashboard.html', {
+    return render(request, 'application_form.html', {
         'profile': profile,
-        'education': education
+        'user': request.user
     })
+# @login_required
+# def application_form(request):
 
-def logout_view(request):
-    if request.method == "POST":
-        logout(request)  # destroys session
-        messages.success(request, "Logged out successfully.")
-        return redirect('login')
+#     profile = StudentProfile.objects.get(user=request.user)
 
-    return redirect('student_dashboard')
+#     if request.method == "POST":
+#         phone = request.POST.get('phone')
+#         college = request.POST.get('college')
+#         course = request.POST.get('course')
+#         year = request.POST.get('year')
+#         skills = request.POST.get('skills')
+#         resume = request.FILES.get('resume')
+
+#         InternshipApplication.objects.create(
+#             student=profile,
+#             phone_number=phone,
+#             college_name=college,
+#             course_department=course,
+#             year_semester=year,
+#             skills=skills,
+#             resume=resume
+#         )
+
+#         return redirect('student_dashboard')
+
+#     return render(request, 'application_form.html', {
+#         'profile': profile
+#     })
+
+
+def fullstack_view(request):
+    return render(request, 'fullstack.html')
+
+def AIML_view(request):
+    return render(request, 'AIML.html')

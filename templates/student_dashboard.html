@@ -1,3 +1,32 @@
+<!-- ================= PERSONAL DETAILS SECTION ================= -->
+<div class="section">
+    <h3>Personal Details</h3>
+
+    <div class="details-row">
+        <label>Username:</label>
+        <input type="text" value="{{ profile.username }}" readonly>
+    </div>
+
+    <div class="details-row">
+        <label>Name:</label>
+        <input type="text" value="{{ profile.full_name }}" readonly>
+    </div>
+
+    <div class="details-row">
+        <label>Email:</label>
+        <input type="text" value="{{ profile.email }}" readonly>
+    </div>
+
+    {% if profile.profile_photo %}
+    <div class="details-row">
+        <label>Profile Photo:</label><br>
+        <img src="{{ profile.profile_photo.url }}" width="150">
+    </div>
+    {% endif %}
+</div>
+
+
+<!-- ================= EDUCATION SECTION ================= -->
 <div class="section">
     <h3>Education Details – 12th Std</h3>
 
@@ -35,10 +64,20 @@
         </div>
 
         <button type="submit">Save Education Details</button>
+    
     </form>
 
     {% if education %}
         <p><strong>Education details saved successfully.</strong></p>
         <img src="{{ education.certificate.url }}" width="200">
     {% endif %}
+
+
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+
+        <form action="{% url 'logout' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    </div>
 </div>

@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Internship Application</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<section class="apply-page">
+
+    <div class="apply-header">
+        <h1>Internship Application Form</h1>
+        <p>Please fill in your details carefully.</p>
+    </div>
+
+    <div class="apply-container">
+
+        <form method="POST" enctype="multipart/form-data" class="apply-form">
+            {% csrf_token %}
+
+            <!-- Read Only Details -->
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" value="{{ user.username }}" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" value="{{ profile.full_name }}" readonly>
+                </div>
+
+            </div>
+
+            <div class="form-group full">
+                <label>Email</label>
+                <input type="email" value="{{ profile.email }}" readonly>
+            </div>
+
+            <!-- Phone -->
+            <div class="form-group full">
+                <label>Phone Number</label>
+                <input type="text" name="phone" required>
+            </div>
+
+            <!-- College -->
+            <div class="form-group full">
+                <label>College / Institution Name</label>
+                <input type="text" name="college" required>
+            </div>
+
+            <!-- Course -->
+            <div class="form-group full">
+                <label>Course / Department</label>
+                <input type="text" name="course" required>
+            </div>
+
+            <!-- Year -->
+            <div class="form-group full">
+                <label>Year / Semester</label>
+                <input type="text" name="year" required>
+            </div>
+
+            <!-- Skills -->
+            <div class="form-group full">
+                <label>Skills</label>
+                <textarea name="skills" rows="4" required></textarea>
+            </div>
+
+            <!-- Resume -->
+            <div class="form-group full">
+                <label>Upload Resume</label>
+                <input type="file" name="resume" accept=".pdf,.doc,.docx" required>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                Submit Application
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+</body>
+</html>

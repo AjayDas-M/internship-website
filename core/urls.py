@@ -8,5 +8,9 @@ urlpatterns = [
     path('complete-profile/', views.student_profile_create, name='student_profile_create'),
     path('verify-otp/', views.verify_otp, name='verify_otp'),
     path('student-dashboard/', views.student_dashboard, name='student_dashboard'),
-    path('logout/', views.logout_view, name='logout')
+    path('logout/', views.logout_view, name='logout'),
+    path('apply/', views.application_form, name='application_form'),
+    path('fullstack/', views.fullstack_view, name='fullstack'),
+    path('AIML/', views.AIML_view, name='AIML')
+    
 ]

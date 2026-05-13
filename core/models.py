@@ -36,3 +36,28 @@ class Education12(models.Model):
 
     def __str__(self):
         return f"{self.student.username} - 12th"
+
+
+class InternshipApplication(models.Model):
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
+
+    phone_number = models.CharField(max_length=15)
+    college_name = models.CharField(max_length=200)
+    course_department = models.CharField(max_length=200)
+    year_semester = models.CharField(max_length=50)
+    skills = models.TextField()
+    resume = models.FileField(upload_to='resumes/')
+
+    applied_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student.username} - Application"
+    
+
+
+class Internship(models.Model):
+    internship_id = models.CharField(max_length=20, unique=True)
+    title = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f"{self.internship_id} - {self.title}"
