@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<section class="apply-page">
+
+    <div class="apply-container">
+
+        <h1>Admin Dashboard</h1>
+        <hr><br>
+
+        <form method="GET" style="margin-bottom:20px;">
+
+            <input type="text" 
+                name="q" 
+                placeholder="Search by name, username or email..."
+                value="{{ query }}"
+                style="padding:8px; width:250px;">
+
+            <button type="submit" class="submit-btn">
+                Search
+            </button>
+
+        </form>
+
+        <table style="width:100%; border-collapse: collapse;">
+
+            <thead>
+                <tr style="background:#f2f2f2;">
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Username</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            {% for item in data %}
+
+                <tr style="border-bottom:1px solid #ddd;">
+
+                    <td>{{ item.student.full_name }}</td>
+                    <td>{{ item.student.email }}</td>
+                    <td>{{ item.student.username }}</td>
+
+                    <td>
+                        {% if item.application %}
+                            {{ item.application.phone_number }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if item.selection %}
+                            <form method="POST" action="{% url 'update_status' item.selection.id %}">
+                                {% csrf_token %}
+                                <select name="status" onchange="this.form.submit()">
+                                    <option value="Pending" {% if item.selection.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                    <option value="Approved" {% if item.selection.status == 'Approved' %}selected{% endif %}>Approved</option>
+                                    <option value="Rejected" {% if item.selection.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                                </select>
+                            </form>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <a href="{% url 'view_student' item.student.id %}">
+                            View Student
+                        </a>
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+</body>
+</html>

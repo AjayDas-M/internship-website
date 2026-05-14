@@ -31,10 +31,17 @@
         </div>
 
         <div class="dropdown-menu" id="dropdownMenu">
-            <a href="{% url 'application_form' %}">Application Form</a>
-            <a href="{% url 'logout' %}">Logout</a>
+
+        {% if user.is_staff %}
+            <a href="{% url 'admin_dashboard' %}">Admin Dashboard</a>
+        {% else %}
             <a href="{% url 'student_dashboard' %}">Student Dashboard</a>
-        </div>
+            <a href="{% url 'application_form' %}">Application Form</a>
+        {% endif %}
+
+        <a href="{% url 'logout' %}">Logout</a>
+
+    </div>
 
     </div>
     {% else %}

@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Details</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<section class="apply-page">
+
+    <div class="apply-container">
+
+        <h1>Student Details</h1>
+        <hr><br>
+
+        <!-- ✅ Personal Details (Combined Section) -->
+        <h3>Personal Details</h3>
+
+        <p><strong>Username:</strong> {{ student.username }}</p>
+        <p><strong>Full Name:</strong> {{ student.full_name }}</p>
+        <p><strong>Email:</strong> {{ student.email }}</p>
+
+        {% if application %}
+            <p><strong>Phone:</strong> {{ application.phone_number }}</p>
+            <p><strong>College:</strong> {{ application.college_name }}</p>
+            <p><strong>Course/Department:</strong> {{ application.course_department }}</p>
+            <p><strong>Year/Semester:</strong> {{ application.year_semester }}</p>
+            <p><strong>Skills:</strong> {{ application.skills }}</p>
+
+            {% if application.resume %}
+                <p><strong>Resume:</strong> 
+                    <a href="{{ application.resume.url }}" target="_blank">
+                        View Resume
+                    </a>
+                </p>
+            {% endif %}
+        {% else %}
+            <p>No application form submitted.</p>
+        {% endif %}
+
+        <br><hr><br>
+
+        <!-- ✅ Internship Details Section -->
+        <h3>Internship Details</h3>
+
+        {% if selection %}
+            <p><strong>Internship ID:</strong> {{ selection.internship.internship_id }}</p>
+            <p><strong>Internship Course:</strong> {{ selection.internship.title }}</p>
+            <p><strong>Status:</strong> {{ selection.status }}</p>
+            <p><strong>Applied On:</strong> {{ selection.applied_at }}</p>
+        {% else %}
+            <p>No internship selected.</p>
+        {% endif %}
+
+        <br><br>
+
+        <a href="{% url 'admin_dashboard' %}" class="submit-btn">
+            Back to Dashboard
+        </a>
+
+    </div>
+
+</section>
+
+</body>
+</html>

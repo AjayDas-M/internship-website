@@ -51,13 +51,22 @@ def dashboard(request):
 
 
 def login_view(request):
+
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
+
+            # ✅ If Admin
+            if user.is_staff:
+                login(request, user)
+                return redirect('admin_dashboard')
+
+            # ✅ If Student
             try:
                 profile = StudentProfile.objects.get(user=user)
 
@@ -241,4 +250,77 @@ def internship_form(request):
         'profile': profile,
         'internship': internship,
         'user': request.user
+    })
+
+
+
+from django.db.models import Q
+
+@login_required
+def admin_dashboard(request):
+
+    if not request.user.is_staff:
+        return redirect('home')
+
+    query = request.GET.get('q', '')
+
+    students = StudentProfile.objects.all()
+
+    if query:
+        students = students.filter(
+            Q(full_name__icontains=query) |
+            Q(username__icontains=query) |
+            Q(email__icontains=query)
+        )
+
+    data = []
+
+    for student in students:
+        selection = InternshipSelection.objects.filter(student=student).first()
+        application = InternshipApplication.objects.filter(student=student).first()
+
+        data.append({
+            'student': student,
+            'selection': selection,
+            'application': application
+        })
+
+    return render(request, 'admin_dashboard.html', {
+        'data': data,
+        'query': query
+    })
+
+
+@login_required
+def update_status(request, selection_id):
+
+    if not request.user.is_staff:
+        return redirect('home')
+
+    selection = get_object_or_404(InternshipSelection, id=selection_id)
+
+    if request.method == "POST":
+        new_status = request.POST.get('status')
+        selection.status = new_status
+        selection.save()
+
+    return redirect('admin_dashboard')
+
+
+@login_required
+def view_student(request, student_id):
+
+    if not request.user.is_staff:
+        return redirect('home')
+
+    student = StudentProfile.objects.get(id=student_id)
+
+    application = InternshipApplication.objects.filter(student=student).first()
+
+    selection = InternshipSelection.objects.filter(student=student).first()
+
+    return render(request, 'view_student.html', {
+        'student': student,
+        'application': application,
+        'selection': selection
     })
