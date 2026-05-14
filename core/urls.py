@@ -16,5 +16,6 @@ urlpatterns = [
     path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('update-status/<int:selection_id>/', views.update_status, name='update_status'),
     path('view-student/<int:student_id>/', views.view_student, name='view_student'),
+    path('send-mails/', views.send_bulk_emails, name='send_bulk_emails'),
     
 ]

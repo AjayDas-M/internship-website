@@ -88,6 +88,15 @@
 
         </table>
 
+        <!-- Send Mail Button -->
+        <form method="POST" action="{% url 'send_bulk_emails' %}">
+            {% csrf_token %}
+            <button type="submit" class="submit-btn" style="background-color: #28a745; color: white;">
+                Send Status Emails
+            </button>
+        </form>
+
+        
     </div>
 
 </section>

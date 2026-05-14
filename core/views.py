@@ -324,3 +324,44 @@ def view_student(request, student_id):
         'application': application,
         'selection': selection
     })
+
+
+@login_required
+def send_bulk_emails(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
+    if request.method == "POST":
+        # Get all students who are Approved or Rejected
+        selections = InternshipSelection.objects.filter(status__in=['Approved', 'Rejected'])
+        
+        count = 0
+        for selection in selections:
+            student = selection.student
+            status = selection.status
+            course = selection.internship.title
+
+            subject = f'Internship Application Status: {status}'
+            message = (
+                f"Dear {student.full_name},\n\n"
+                f"Thank you for applying to the {course} internship at RLabs.\n\n"
+                f"We are writing to inform you that your application status has been updated to: {status}.\n\n"
+                f"If you have any questions, please feel free to contact us.\n\n"
+                f"Best regards,\nRLabs Team"
+            )
+
+            try:
+                send_mail(
+                    subject,
+                    message,
+                    settings.EMAIL_HOST_USER,
+                    [student.email],
+                    fail_silently=False,
+                )
+                count += 1
+            except Exception as e:
+                print(f"Error sending mail to {student.email}: {e}")
+
+        messages.success(request, f"Emails sent successfully to {count} students!")
+
+    return redirect('admin_dashboard')
