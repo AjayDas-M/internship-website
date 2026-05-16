@@ -10,20 +10,50 @@
 
 <body>
 <header class="header">
+
     <h1 class="logo">RLabZ</h1>
-    <!-- NAVBAR -->
+
     <nav class="navbar">
-
         <div class="nav-container">
-
             <a href="#" class="nav-link active">Home</a>
             <a href="#about" class="nav-link">About</a>
             <a href="#projects" class="nav-link">Projects</a>
             <a href="#internships" class="nav-link">Internships</a>
             <a href="#apply" class="nav-link">Apply</a>
         </div>
-
     </nav>
+
+    {% if user.is_authenticated %}
+    <div class="profile-menu">
+
+        <div class="profile-icon" onclick="toggleMenu()">
+            👤
+        </div>
+
+        <div class="dropdown-menu" id="dropdownMenu">
+
+        {% if user.is_staff %}
+            <a href="{% url 'admin_dashboard' %}">Admin Dashboard</a>
+        {% else %}
+            <a href="{% url 'student_dashboard' %}">Student Dashboard</a>
+            <a href="{% url 'application_form' %}">Application Form</a>
+        {% endif %}
+
+        <a href="{% url 'logout' %}">Logout</a>
+
+    </div>
+
+    </div>
+    {% else %}
+
+    <div class="header-auth">
+        <a href="{% url 'login' %}" class="primary-btn">
+            Log In
+        </a>
+    </div>
+
+    {% endif %}
+
 </header>
 
 
@@ -309,7 +339,11 @@
             <div class="icon-circle">🌐</div>
             <h3>Full Stack Development</h3>
             <p>Build responsive websites and full-stack applications using modern frameworks and tools.</p>
-            <a href="#apply" class="intern-btn">Read More</a>
+            <a href="{% url 'fullstack' %}" 
+                class="intern-btn" 
+                target="_blank">
+                Read More
+            </a>
         </div>
 
         <!-- AI ML -->
@@ -317,7 +351,11 @@
             <div class="icon-circle">🤖</div>
             <h3>AI / ML</h3>
             <p>Work with machine learning models, AI tools, and real-world intelligent systems.</p>
-            <a href="#apply" class="intern-btn">Read More</a>
+            <a href="{% url 'AIML' %}" 
+                class="intern-btn" 
+                target="_blank">
+                Read More
+            </a>
         </div>
 
         <!-- Data Science -->

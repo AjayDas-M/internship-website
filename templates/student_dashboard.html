@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<section class="apply-page">
+
+    <div class="apply-header">
+        <h1>Student Dashboard</h1>
+        <p>Track your internship applications here.</p>
+    </div>
+
+    <div class="apply-container">
+
+        <!-- Student Basic Info -->
+        <h3>Student Details</h3>
+        <hr>
+
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" value="{{ user.username }}" readonly>
+        </div>
+
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" value="{{ profile.full_name }}" readonly>
+        </div>
+
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" value="{{ profile.email }}" readonly>
+        </div>
+
+        <br><br>
+
+        <!-- Internship Applications -->
+        <h3>Internship Applications</h3>
+        <hr>
+
+        {% if selections %}
+            {% for selection in selections %}
+                <div style="margin-bottom:20px; padding:15px; border:1px solid #ddd; border-radius:10px;">
+
+                    <p><strong>Internship ID:</strong> {{ selection.internship.internship_id }}</p>
+
+                    <p><strong>Course:</strong> {{ selection.internship.title }}</p>
+
+                    <p><strong>Status:</strong> 
+                        <span style="font-weight:600;">
+                            {{ selection.status }}
+                        </span>
+                    </p>
+
+                    <p><strong>Applied On:</strong> {{ selection.applied_at }}</p>
+
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>You have not applied for any internships yet.</p>
+        {% endif %}
+
+    </div>
+
+</section>
+
+</body>
+</html>

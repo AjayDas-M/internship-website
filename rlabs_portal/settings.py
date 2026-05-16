@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -120,3 +121,14 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = 'meeraajay.9b@gmail.com'   # your actual gmail
+EMAIL_HOST_PASSWORD = 'icgngpzvuwxcjqfn'  # remove spaces
+
+

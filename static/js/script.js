@@ -15,3 +15,16 @@ links.forEach(link => {
     });
 
 });
+
+
+function toggleMenu() {
+    var menu = document.getElementById("dropdownMenu");
+    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+}
+
+window.onclick = function(event) {
+    if (!event.target.closest('.profile-menu')) {
+        var menu = document.getElementById("dropdownMenu");
+        if (menu) menu.style.display = "none";
+    }
+}

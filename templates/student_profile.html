@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Complete Profile</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .form-row {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .form-row label {
+            font-weight: 500;
+        }
+
+        input[readonly] {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<section class="auth-section">
+    <div class="auth-box">
+        <h2>Complete Your Profile</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-row">
+                <label>Username:</label>
+                <input type="text" value="{{ username }}" readonly>
+            </div>
+
+            <div class="form-row">
+                <label>Name:</label>
+                <input type="text" name="full_name" placeholder="Enter full name" required>
+            </div>
+
+            <div class="form-row">
+                <label>E-mail:</label>
+                <input type="email" name="email" placeholder="Enter email" required>
+            </div>
+
+            <div class="form-row">
+                <label>Profile photo:</label>
+                <input type="file" name="profile_photo" accept="image/*">
+            </div>
+
+            <button type="submit">Save Profile</button>
+        </form>
+
+    </div>
+</section>
+
+</body>
+</html>
