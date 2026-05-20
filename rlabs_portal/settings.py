@@ -131,4 +131,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'meeraajay.9b@gmail.com'   # your actual gmail
 EMAIL_HOST_PASSWORD = 'icgngpzvuwxcjqfn'  # remove spaces
 
+import os
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

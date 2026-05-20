@@ -4,102 +4,207 @@
 <head>
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            background: #0f2f5f;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        .dashboard-container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 50px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #0f2f5f;
+        }
+
+        /* Search Bar */
+        .search-box {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .search-box input {
+            width: 300px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-search {
+            background: #0f2f5f;
+            color: white;
+        }
+
+        .btn-email {
+            background: #28a745;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f4f6f9;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            font-weight: bold;
+            color: #333;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+        tbody tr:hover {
+            background: #f9fbff;
+        }
+
+        /* Status Dropdown */
+        select {
+            padding: 6px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        /* View link */
+        .view-link {
+            text-decoration: none;
+            color: #0f2f5f;
+            font-weight: 600;
+        }
+
+        .view-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .search-box input {
+                width: 100%;
+            }
+
+            table {
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<section class="apply-page">
+<div class="dashboard-container">
 
-    <div class="apply-container">
+    <h1>Admin Dashboard</h1>
 
-        <h1>Admin Dashboard</h1>
-        <hr><br>
+    <!-- Search -->
+    <form method="GET" class="search-box">
+        <input type="text" 
+               name="q" 
+               placeholder="Search by name, username or email..."
+               value="{{ query }}">
+        <button type="submit" class="btn btn-search">Search</button>
+    </form>
 
-        <form method="GET" style="margin-bottom:20px;">
+    <!-- Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Username</th>
+                <th>Phone</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
 
-            <input type="text" 
-                name="q" 
-                placeholder="Search by name, username or email..."
-                value="{{ query }}"
-                style="padding:8px; width:250px;">
+        <tbody>
+        {% for item in data %}
+            <tr>
+                <td>{{ item.student.full_name }}</td>
+                <td>{{ item.student.email }}</td>
+                <td>{{ item.student.username }}</td>
 
-            <button type="submit" class="submit-btn">
-                Search
-            </button>
+                <td>
+                    {% if item.application %}
+                        {{ item.application.phone_number }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
 
-        </form>
+                <td>
+                    {% if item.selection %}
+                        <form method="POST" action="{% url 'update_status' item.selection.id %}">
+                            {% csrf_token %}
+                            <select name="status" onchange="this.form.submit()">
+                                <option value="Pending" {% if item.selection.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                <option value="Approved" {% if item.selection.status == 'Approved' %}selected{% endif %}>Approved</option>
+                                <option value="Rejected" {% if item.selection.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                            </select>
+                        </form>
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
 
-        <table style="width:100%; border-collapse: collapse;">
+                <td>
+                    <a href="{% url 'view_student' item.student.id %}" class="view-link">
+                        View Student
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-            <thead>
-                <tr style="background:#f2f2f2;">
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Username</th>
-                    <th>Phone</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
+    <!-- Send Bulk Email -->
+    <form method="POST" action="{% url 'send_bulk_emails' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-email">
+            Send Status Emails
+        </button>
+    </form>
 
-            <tbody>
-
-            {% for item in data %}
-
-                <tr style="border-bottom:1px solid #ddd;">
-
-                    <td>{{ item.student.full_name }}</td>
-                    <td>{{ item.student.email }}</td>
-                    <td>{{ item.student.username }}</td>
-
-                    <td>
-                        {% if item.application %}
-                            {{ item.application.phone_number }}
-                        {% else %}
-                            -
-                        {% endif %}
-                    </td>
-
-                    <td>
-                        {% if item.selection %}
-                            <form method="POST" action="{% url 'update_status' item.selection.id %}">
-                                {% csrf_token %}
-                                <select name="status" onchange="this.form.submit()">
-                                    <option value="Pending" {% if item.selection.status == 'Pending' %}selected{% endif %}>Pending</option>
-                                    <option value="Approved" {% if item.selection.status == 'Approved' %}selected{% endif %}>Approved</option>
-                                    <option value="Rejected" {% if item.selection.status == 'Rejected' %}selected{% endif %}>Rejected</option>
-                                </select>
-                            </form>
-                        {% else %}
-                            -
-                        {% endif %}
-                    </td>
-
-                    <td>
-                        <a href="{% url 'view_student' item.student.id %}">
-                            View Student
-                        </a>
-                    </td>
-
-                </tr>
-
-            {% endfor %}
-
-            </tbody>
-
-        </table>
-
-        <!-- Send Mail Button -->
-        <form method="POST" action="{% url 'send_bulk_emails' %}">
-            {% csrf_token %}
-            <button type="submit" class="submit-btn" style="background-color: #28a745; color: white;">
-                Send Status Emails
-            </button>
-        </form>
-
-        
-    </div>
-
-</section>
+</div>
 
 </body>
 </html>
