@@ -228,30 +228,40 @@ def fullstack_view(request):
 def AIML_view(request):
     return render(request, 'AIML.html')
 
-@login_required
-def internship_form(request):
+def datascience_view(request):
+    return render(request, 'datascience.html')
 
+def uiux_view(request):
+    return render(request, 'uiux.html')
+
+@login_required
+def internship_form(request, intern_id):
+    # Get the student profile
     profile = StudentProfile.objects.get(user=request.user)
 
-    # Hardcode internship for now
-    internship = Internship.objects.get(internship_id='I001')
+    # Fetch the specific internship based on the ID passed from the URL
+    # This will now work for I001, I002, I003, and I004
+    internship = get_object_or_404(Internship, internship_id=intern_id)
 
     if request.method == "POST":
-
-        InternshipSelection.objects.create(
-            student=profile,
-            internship=internship,
-            status='Pending'
-        )
-
-        return redirect('home')
+        # Check if student already applied for this specific internship
+        if not InternshipSelection.objects.filter(student=profile, internship=internship).exists():
+            InternshipSelection.objects.create(
+                student=profile,
+                internship=internship,
+                status='Pending'
+            )
+            messages.success(request, f"Successfully applied for {internship.title}!")
+        else:
+            messages.warning(request, "You have already applied for this internship.")
+            
+        return redirect('student_dashboard')
 
     return render(request, 'internship_form.html', {
         'profile': profile,
         'internship': internship,
         'user': request.user
     })
-
 
 
 from django.db.models import Q
